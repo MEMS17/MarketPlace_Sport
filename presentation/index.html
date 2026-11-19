@@ -121,7 +121,7 @@
     </section>
 
     <section class="slide" id="slide-7" aria-label="Diapositive 7 sur 9">
-      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 06 / RESTITUTION BI</div><h2>Deux dashboards.<br><span class="muted">Un pilotage immédiat.</span></h2></div>
+      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 06 / RESTITUTION BI</div><h2>Quatre dashboards.<br><span class="muted">Un pilotage immédiat.</span></h2></div>
       <div class="dashboards">
         <article class="dashboard-card executive reveal">
           <div class="dash-card-head"><div><span class="dash-kicker">METABASE / 01</span><h3>Executive Summary</h3></div><span class="dash-arrow">↗</span></div>
@@ -130,10 +130,11 @@
         </article>
         <article class="dashboard-card sellers reveal">
           <div class="dash-card-head"><div><span class="dash-kicker">METABASE / 02</span><h3>Top Sellers</h3></div><span class="dash-arrow">↗</span></div>
-          <div class="mock-screen screen-dark"><div class="seller-head"><span>PERFORMANCE VENDEURS</span><span>MOIS EN COURS⌄</span></div><div class="seller-row"><b>01</b><span>Alpine Run<small>Course · FR</small></span><strong>€ 18,2k</strong><i style="--w:86%"></i></div><div class="seller-row"><b>02</b><span>VeloPro<small>Cyclisme · FR</small></span><strong>€ 14,6k</strong><i style="--w:69%"></i></div><div class="seller-row"><b>03</b><span>Outdoor Nord<small>Randonnée · BE</small></span><strong>€ 11,1k</strong><i style="--w:51%"></i></div><div class="commission-chart"><span>COMMISSIONS JOURNALIÈRES</span><svg viewBox="0 0 360 75" preserveAspectRatio="none"><path d="M0 57L28 48 54 55 82 35 110 41 138 23 166 37 194 30 222 16 250 25 278 13 306 21 334 6 360 10"/></svg></div></div>
-          <div class="dash-foot"><span>TOP 10 · COMMISSIONS · INACTIVITÉ</span><span>PERFORMANCE</span></div>
+          <div class="mock-screen screen-dark"><div class="seller-head"><span>PERFORMANCE VENDEURS</span><span>MOIS EN COURS⌄</span></div><div class="seller-row"><b>01</b><span>Alpine Run<small>Course · FR</small></span><strong>€ 18,2k</strong><i style="--w:86%"></i></div><div class="seller-row"><b>02</b><span>VeloPro<small>Cyclisme · FR</small></span><strong>€ 14,6k</strong><i style="--w:69%"></i></div><div class="seller-row"><b>03</b><span>Outdoor Nord<small>Randonnée · BE</small></span><strong>€ 11,1k</strong><i style="--w:51%"></i></div><div class="commission-chart"><span>TENDANCE · TOP 3 VENDEURS</span><svg viewBox="0 0 360 75" preserveAspectRatio="none"><path d="M0 57L28 48 54 55 82 35 110 41 138 23 166 37 194 30 222 16 250 25 278 13 306 21 334 6 360 10"/></svg></div></div>
+          <div class="dash-foot"><span>TOP 10 MENSUEL · ÉVOLUTION 30 J · INACTIFS 7 J</span><span>PERFORMANCE</span></div>
         </article>
       </div>
+      <p class="dashboards-note">Également : Commissions - Sport · Ventes par catégorie - Sport</p>
       <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>07 — 09</span></div>
     </section>
 
@@ -143,7 +144,7 @@
         <article class="reliability-card reveal"><span class="reliability-icon">01</span><div><h3>Source contrôlée</h3><p>L’API exige un jeton Bearer et produit des commandes déterministes pour une date donnée.</p></div><span class="reliability-tag">AUTH · REPRODUCTIBLE</span></article>
         <article class="reliability-card reveal"><span class="reliability-icon">02</span><div><h3>Chargement idempotent</h3><p>Une relance supprime puis recharge la date traitée dans staging et les tables analytiques.</p></div><span class="reliability-tag">PAS DE DOUBLONS AU REPLAY</span></article>
         <article class="reliability-card reveal"><span class="reliability-icon">03</span><div><h3>Mesures cohérentes</h3><p>Le panier moyen divise la somme des ventes par les commandes, pas par les lignes.</p></div><span class="reliability-tag">GRAIN DOCUMENTÉ</span></article>
-        <article class="reliability-card reveal"><span class="reliability-icon">04</span><div><h3>Tests automatisés</h3><p>Le dépôt vérifie l’import du DAG, ses tâches essentielles, l’authentification et le déterminisme de l’API.</p></div><span class="reliability-tag">CONTRÔLES DANS LE PROJET</span></article>
+        <article class="reliability-card reveal"><span class="reliability-icon">04</span><div><h3>Tests automatisés</h3><p>GitHub Actions lance pytest à chaque push et pull request : DAG, chargement idempotent, dashboards et API.</p></div><span class="reliability-tag">PYTEST · GITHUB ACTIONS</span></article>
       </div>
       <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>08 — 09</span></div>
     </section>

@@ -75,7 +75,7 @@ Après une modification des dashboards, relancer le provisionnement avec `docker
 
 ## Tests et contrôles
 
-GitHub Actions exécute automatiquement la suite pytest sur chaque push et pull request. Pour la lancer localement :
+GitHub Actions exécute automatiquement la suite pytest sur chaque push et pull request ([historique des runs](https://github.com/MEMS17/MarketPlace_Sport/actions/workflows/pytest.yml)). Pour la lancer localement :
 
 ```powershell
 docker compose exec airflow-worker pytest /opt/airflow/tests -q
