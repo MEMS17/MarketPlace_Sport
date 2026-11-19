@@ -80,7 +80,12 @@ def orders():
         return jsonify({"error": "date must be YYYY-MM-DD"}), 400
     rng = random.Random(int(hashlib.md5(day.encode()).hexdigest(), 16))
     result = []
-    for index in range(rng.randint(70, 120)):
+    # Optional load-test override. Without it, keep the normal demo volume.
+    configured_count = os.getenv("MARKETPLACE_ORDERS_PER_DAY")
+    order_count = int(configured_count) if configured_count else rng.randint(70, 120)
+    if order_count < 1:
+        return jsonify({"error": "MARKETPLACE_ORDERS_PER_DAY must be positive"}), 500
+    for index in range(order_count):
         product = rng.choice(PRODUCTS)
         quantity = rng.randint(1, 3)
         total = round(product["price"] * quantity, 2)

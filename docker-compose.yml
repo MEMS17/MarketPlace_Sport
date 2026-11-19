@@ -11,6 +11,8 @@ x-airflow-common: &airflow-common
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY:?copy .env.example to .env and set secrets}
     AIRFLOW__API__SECRET_KEY: ${AIRFLOW_SECRET_KEY:?set AIRFLOW_SECRET_KEY in .env}
+    AIRFLOW__API__BASE_URL: http://airflow-apiserver:8080
+    AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW_SECRET_KEY:?set AIRFLOW_SECRET_KEY in .env}
     AIRFLOW__API__AUTH_BACKENDS: airflow.providers.fab.auth_manager.api.auth.backend.basic_auth
     AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
     MARKETPLACE_API_URL: http://api-marketplace:5000
@@ -110,6 +112,7 @@ services:
     build: ./api
     environment:
       MARKETPLACE_API_TOKEN: ${MARKETPLACE_API_TOKEN:-formation-token-2026}
+      MARKETPLACE_ORDERS_PER_DAY: ${MARKETPLACE_ORDERS_PER_DAY:-}
     ports: ["127.0.0.1:5001:5000"]
     healthcheck:
       test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
