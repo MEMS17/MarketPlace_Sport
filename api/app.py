@@ -16,6 +16,22 @@ SELLERS = [
     {"id": 4, "name": "Fit & Forme", "country": "FR"},
     {"id": 5, "name": "Glisse Shop", "country": "CH"},
 ]
+ADDITIONAL_SELLER_NAMES = [
+    "Trail Hexagone", "Cycle Avenue", "Montagne Active", "Zenith Fitness", "Nordic Pro",
+    "Rando Nomade", "Endurance Plus", "Verticale", "Pulse Training", "Alpine Market",
+    "Road & Gravel", "Horizon Outdoor", "Atelier Running", "Glisse Alpine", "Forme & Mouvement",
+]
+COUNTRIES = ("FR", "BE", "CH", "ES", "DE")
+SELLERS.extend(
+    {"id": seller_id, "name": name, "country": COUNTRIES[(seller_id - 6) % len(COUNTRIES)]}
+    for seller_id, name in enumerate(ADDITIONAL_SELLER_NAMES, start=6)
+)
+# Keep five catalog-only sellers so the inactivity dashboard has useful rows.
+SELLERS.extend(
+    {"id": seller_id, "name": f"Seller {seller_id:02d}", "country": "FR"}
+    for seller_id in range(21, 26)
+)
+CATEGORIES = ["Course", "Cyclisme", "Randonnée", "Fitness", "Sports d'hiver"]
 PRODUCTS = [
     {"id": 101, "name": "Chaussures trail", "category": "Course", "seller_id": 1, "price": 129.90},
     {"id": 102, "name": "Veste running", "category": "Course", "seller_id": 1, "price": 89.00},
@@ -28,7 +44,24 @@ PRODUCTS = [
     {"id": 501, "name": "Masque ski", "category": "Sports d'hiver", "seller_id": 5, "price": 69.90},
     {"id": 502, "name": "Casque ski", "category": "Sports d'hiver", "seller_id": 5, "price": 159.00},
 ]
-CUSTOMERS = [{"id": i, "city": ["Paris", "Lyon", "Lille", "Bordeaux", "Nantes"][i % 5]} for i in range(1, 101)]
+for seller in SELLERS:
+    existing_count = sum(product["seller_id"] == seller["id"] for product in PRODUCTS)
+    product_count = 5 if seller["id"] <= 20 else 0
+    for product_index in range(existing_count, product_count):
+        category = CATEGORIES[(seller["id"] + product_index) % len(CATEGORIES)]
+        PRODUCTS.append({
+            "id": seller["id"] * 1000 + product_index + 1,
+            "name": f"{category} - {seller['name']} {product_index + 1}",
+            "category": category,
+            "seller_id": seller["id"],
+            "price": round(19.99 + ((seller["id"] * 137 + product_index * 211) % 190000) / 100, 2),
+        })
+
+CUSTOMER_CITIES = ["Paris", "Lyon", "Lille", "Bordeaux", "Nantes"]
+CUSTOMERS = [
+    {"id": customer_id, "city": CUSTOMER_CITIES[(customer_id - 1) % len(CUSTOMER_CITIES)]}
+    for customer_id in range(1, 1001)
+]
 
 
 def _auth_required():

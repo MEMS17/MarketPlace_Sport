@@ -60,6 +60,18 @@ Relancer la première commande avec la même date est attendu. Vérifier que `co
 
 Le taux de commission est 12 %. Le chiffre d’affaires (`total`) est le montant payé pour la ligne; `commission` est calculée par l’API. Le panier moyen est la somme des lignes divisée par le nombre de commandes, jamais par le nombre de lignes.
 
+## Données de démonstration et benchmark
+
+En mode démo normal, l’API génère 70 à 120 commandes par date. Le catalogue contient 25 vendeurs (20 vendeurs avec produits et 5 vendeurs sans vente pour alimenter le tableau d’inactivité), 100 produits et 1 000 clients.
+
+Pour reproduire le benchmark présenté, après avoir démarré la stack, lancer :
+
+```powershell
+.\scripts\backfill_benchmark.ps1
+```
+
+Le script charge 30 dates consécutives à 30 000 commandes par date, soit 900 000 lignes dans `dwh.fact_orders`. Il vérifie le compte final, puis restaure le réglage de volume précédent de l’API. Les paramètres peuvent être adaptés, par exemple `-EndDate "2026-04-07" -Days 30 -OrdersPerDay 30000`. Chaque date est remplacée de façon idempotente; relancer le script est sans risque pour cette plage.
+
 ## Dashboards
 
 Au premier démarrage, `metabase-provision` crée la base de connexion, les questions SQL et les quatre dashboards. À chaque relance, il actualise aussi les requêtes et les cartes déjà créées :
