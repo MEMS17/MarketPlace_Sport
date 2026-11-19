@@ -19,7 +19,7 @@ def test_all_project_dags_disable_catchup():
 
 def test_orders_dag_contains_idempotent_transform():
     dagbag = DagBag(dag_folder=str(PROJECT / "dags"), include_examples=False)
-    dag = dagbag.get_dag("marketplace_orders_ingest_daily")
+    dag = dagbag.dags.get("marketplace_orders_ingest_daily")
     assert dag is not None
     assert {"refresh_dimensions", "archive_orders", "load_staging", "transform_idempotently"} <= set(dag.task_ids)
     source = (PROJECT / "dags" / "marketplace_orders_ingest.py").read_text(encoding="utf-8")
