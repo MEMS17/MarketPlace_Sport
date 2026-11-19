@@ -1,6 +1,6 @@
 # Marketplace Sport Analytics
 
-MVP de plateforme analytique pour une marketplace de matériel de sport. La source REST simulée génère des commandes déterministes par date. Airflow orchestre leur archivage dans MinIO et leur chargement vers PostgreSQL. Metabase est provisionné avec deux dashboards.
+MVP de plateforme analytique pour une marketplace de matériel de sport. La source REST simulée génère des commandes déterministes par date. Airflow orchestre leur archivage dans MinIO et leur chargement vers PostgreSQL. Metabase est provisionné avec quatre dashboards.
 
 ## Architecture
 
@@ -12,7 +12,7 @@ flowchart LR
     DAG -->|DELETE + INSERT par date| STG[(PostgreSQL staging)]
     STG --> DWH[(PostgreSQL dwh étoile)]
     DWH --> V[analytics views]
-    V --> MB[Metabase<br/>2 dashboards]
+    V --> MB[Metabase<br/>4 dashboards]
 ```
 
 ## Démarrer
@@ -62,12 +62,16 @@ Le taux de commission est 12 %. Le chiffre d’affaires (`total`) est le montant
 
 ## Dashboards
 
-Au premier démarrage, `metabase-provision` crée la base de connexion, les questions SQL et les deux dashboards :
+Au premier démarrage, `metabase-provision` crée la base de connexion, les questions SQL et les quatre dashboards. À chaque relance, il actualise aussi les requêtes et les cartes déjà créées :
 
-1. **Executive Summary - Sport** : CA du dernier jour chargé, évolution du CA sur 30 jours, top 5 vendeurs.
-2. **Top Sellers - Sport** : top 10 vendeurs du mois chargé, commissions journalières, vendeurs sans vente récente.
+1. **Executive Summary - Sport** : CA du dernier jour chargé, évolution du CA sur 30 jours, top 5 vendeurs de cette journée.
+2. **Top Sellers - Sport** : top 10 vendeurs du mois chargé, évolution des 3 meilleurs vendeurs sur 30 jours, vendeurs sans vente depuis 7 jours.
+3. **Commissions - Sport** : commissions journalières sur les 30 derniers jours chargés.
+4. **Ventes par catégorie - Sport** : CA par catégorie sur les 30 derniers jours chargés.
 
-Les indicateurs utilisent la dernière date présente dans le DWH. Après un premier run du DAG, rafraîchir la page Metabase.
+Les indicateurs relatifs utilisent les dates présentes dans le DWH. Ainsi, un backfill historique reste cohérent sans dépendre de la date système. Après un premier run du DAG, rafraîchir la page Metabase.
+
+Après une modification des dashboards, relancer le provisionnement avec `docker compose up -d --force-recreate metabase-provision`.
 
 ## Tests et contrôles
 
@@ -77,7 +81,7 @@ docker compose logs --tail 100 airflow-scheduler airflow-worker
 docker compose logs --tail 100 metabase-provision
 ```
 
-Les tests couvrent le chargement des DAGs, `catchup=False`, la présence du remplacement idempotent par date, ainsi que l’authentification et le déterminisme de l’API.
+Les tests couvrent le chargement des DAGs, `catchup=False`, la présence du remplacement idempotent par date, la configuration des dashboards, ainsi que l’authentification et le déterminisme de l’API. Le test de structure ne remplace pas la vérification manuelle d’idempotence documentée plus haut.
 
 ## Arrêter
 

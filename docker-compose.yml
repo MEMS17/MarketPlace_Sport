@@ -30,6 +30,7 @@ x-airflow-common: &airflow-common
     - ./dags:/opt/airflow/dags
     - ./plugins:/opt/airflow/plugins
     - ./api:/opt/airflow/api:ro
+    - ./metabase:/opt/airflow/metabase:ro
     - ./logs:/opt/airflow/logs
     - ./tests:/opt/airflow/tests:ro
   depends_on:
