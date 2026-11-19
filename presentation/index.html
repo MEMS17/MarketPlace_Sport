@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101411">
+  <title>Marketplace Sport | Présentation du projet</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#slide-1" aria-label="Marketplace Sport, début de la présentation">
+      <span class="brand-mark">M<span>+</span></span>
+      <span>MARKETPLACE<span class="brand-light"> / SPORT</span></span>
+    </a>
+    <div class="top-meta"><span class="live-dot"></span> PROJET DATA ENGINEERING <span class="top-divider">/</span> 2026</div>
+  </header>
+
+  <main class="deck" aria-label="Diaporama de présentation du projet Marketplace Sport">
+    <section class="slide slide-cover active" id="slide-1" aria-label="Diapositive 1 sur 9">
+      <div class="cover-copy">
+        <div class="eyebrow reveal"><span class="eyebrow-line"></span> PIPELINE ANALYTIQUE DE BOUT EN BOUT</div>
+        <h1 class="reveal">Du flux de<br>commandes à<br><span class="accent">la décision.</span></h1>
+        <p class="lead reveal">Concevoir une chaîne de données fiable pour piloter une marketplace de matériel de sport.</p>
+        <div class="cover-tags reveal"><span>API REST</span><span>DATA LAKE</span><span>DATA WAREHOUSE</span><span>BI</span></div>
+      </div>
+      <div class="cover-art reveal" aria-hidden="true">
+        <div class="art-orbit orbit-a"></div><div class="art-orbit orbit-b"></div>
+        <div class="art-core"><span class="core-symbol">↗</span><span>SPORT<br>COMMERCE</span></div>
+        <div class="float-card card-api"><span class="mini-icon orange">01</span><span>ORDERS API<small>flux métier</small></span><b class="pulse"></b></div>
+        <div class="float-card card-lake"><span class="mini-icon lime">02</span><span>DATA LAKE<small>historique brut</small></span><b class="pulse"></b></div>
+        <div class="float-card card-bi"><span class="mini-icon violet">03</span><span>ANALYTICS<small>indicateurs clés</small></span><b class="pulse"></b></div>
+        <svg class="art-route" viewBox="0 0 600 440" fill="none"><path d="M85 116C180 38 235 79 288 191S405 311 509 236" stroke="url(#route)" stroke-width="2" stroke-dasharray="5 8"/><defs><linearGradient id="route" x1="80" y1="80" x2="515" y2="300"><stop stop-color="#ff865c"/><stop offset=".52" stop-color="#b9f568"/><stop offset="1" stop-color="#ae9cff"/></linearGradient></defs></svg>
+      </div>
+      <div class="cover-foot reveal"><span>UNE ARCHITECTURE DATA COMPLÈTE</span><span>01 — 09</span></div>
+    </section>
+
+    <section class="slide" id="slide-2" aria-label="Diapositive 2 sur 9">
+      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 01 / ENJEU</div><h2>Transformer les ventes<br><span class="muted">en signaux utiles.</span></h2></div>
+      <div class="problem-layout">
+        <div class="problem-intro reveal"><span class="big-number">01</span><p>Une marketplace génère des événements de vente chaque jour. La donnée doit devenir exploitable sans ralentir les opérations.</p><div class="side-note">LE BESOIN<br><strong>Une source fiable<br>pour décider.</strong></div></div>
+        <div class="problem-cards">
+          <article class="problem-card reveal"><div class="card-index">A</div><div class="card-icon">⌁</div><h3>Rassembler</h3><p>Centraliser commandes, produits et vendeurs issus des services de la marketplace.</p><span class="card-bottom">DONNÉES DISPERSÉES <i>→</i></span></article>
+          <article class="problem-card reveal"><div class="card-index">B</div><div class="card-icon">◌</div><h3>Fiabiliser</h3><p>Conserver le brut, structurer l’historique et rendre les rechargements prévisibles.</p><span class="card-bottom">CHAÎNE REPRODUCTIBLE <i>→</i></span></article>
+          <article class="problem-card reveal"><div class="card-index">C</div><div class="card-icon">↗</div><h3>Piloter</h3><p>Suivre le chiffre d’affaires, les commissions et la performance des vendeurs.</p><span class="card-bottom">INDICATEURS ACTIONNABLES <i>→</i></span></article>
+        </div>
+      </div>
+      <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>02 — 09</span></div>
+    </section>
+
+    <section class="slide" id="slide-3" aria-label="Diapositive 3 sur 9">
+      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 02 / ARCHITECTURE</div><h2>Chaque outil a<br><span class="muted">un rôle précis.</span></h2></div>
+      <div class="architecture reveal">
+        <div class="arch-row">
+          <article class="arch-node source"><div class="node-top"><span class="node-number">01</span><span class="node-icon">⌘</span></div><h3>API marketplace</h3><p>Commandes<br>Produits · Vendeurs</p><span class="node-tech">FLASK · REST</span></article>
+          <div class="connector"><span>JSON</span><i>→</i></div>
+          <article class="arch-node orchestrator"><div class="node-top"><span class="node-number">02</span><span class="node-icon">◷</span></div><h3>Orchestration</h3><p>Planifie et enchaîne<br>les tâches quotidiennes</p><span class="node-tech">APACHE AIRFLOW</span></article>
+          <div class="connector"><span>ARCHIVER</span><i>→</i></div>
+          <article class="arch-node lake"><div class="node-top"><span class="node-number">03</span><span class="node-icon">▤</span></div><h3>Stockage brut</h3><p>Copie JSON datée<br>et conservée telle quelle</p><span class="node-tech">MINIO · S3</span></article>
+          <div class="connector"><span>CHARGER</span><i>→</i></div>
+          <article class="arch-node warehouse"><div class="node-top"><span class="node-number">04</span><span class="node-icon">▦</span></div><h3>Modèle analytique</h3><p>Staging → faits<br>→ agrégats</p><span class="node-tech">POSTGRESQL</span></article>
+          <div class="connector"><span>EXPLORER</span><i>→</i></div>
+          <article class="arch-node bi"><div class="node-top"><span class="node-number">05</span><span class="node-icon">▥</span></div><h3>Décision</h3><p>Dashboards pour<br>suivre l’activité</p><span class="node-tech">METABASE</span></article>
+        </div>
+        <div class="orchestration-band"><span class="band-glyph">↳</span><div><strong>Airflow orchestre la chaîne</strong><small>Il déclenche les extractions, les chargements et les transformations selon leurs dépendances.</small></div><span class="band-status"><i></i> QUOTIDIEN</span></div>
+      </div>
+      <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>03 — 09</span></div>
+    </section>
+
+    <section class="slide" id="slide-4" aria-label="Diapositive 4 sur 9">
+      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 03 / CYCLE DE LA DONNÉE</div><h2>Une commande suit<br><span class="muted">un parcours traçable.</span></h2></div>
+      <div class="lifecycle">
+        <div class="life-track"><div class="life-line"></div>
+          <article class="life-step reveal"><span class="step-dot orange-dot">01</span><span class="step-time">SOURCE</span><h3>Collecter</h3><p>L’API expose les commandes du jour, les produits et les vendeurs.</p><code>GET /orders?date=…</code></article>
+          <article class="life-step reveal"><span class="step-dot lime-dot">02</span><span class="step-time">BRONZE</span><h3>Archiver</h3><p>La réponse est déposée en JSON dans MinIO, partitionnée par date.</p><code>raw/orders/dt=…/data.json</code></article>
+          <article class="life-step reveal"><span class="step-dot violet-dot">03</span><span class="step-time">STAGING</span><h3>Charger</h3><p>Le JSON est relu depuis le Lake et chargé dans PostgreSQL.</p><code>staging.orders · JSONB</code></article>
+          <article class="life-step reveal"><span class="step-dot blue-dot">04</span><span class="step-time">DWH + BI</span><h3>Transformer</h3><p>Le modèle étoile et les agrégats alimentent les indicateurs.</p><code>dwh.fact_orders → analytics</code></article>
+        </div>
+      </div>
+      <div class="note-strip reveal"><span class="note-icon">↻</span><p><strong>Rejouable par date.</strong> Le pipeline remplace la partition du jour avant de la recalculer, ce qui évite de compter deux fois les mêmes commandes.</p><span class="note-label">IDEMPOTENCE</span></div>
+      <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>04 — 09</span></div>
+    </section>
+
+    <section class="slide" id="slide-5" aria-label="Diapositive 5 sur 9">
+      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 04 / MODÈLE ANALYTIQUE</div><h2>Des événements au<br><span class="muted">schéma en étoile.</span></h2></div>
+      <div class="model-layout">
+        <div class="star-model reveal" aria-label="Schéma en étoile autour de la table de faits des commandes">
+          <svg class="star-lines" viewBox="0 0 640 440" aria-hidden="true"><path d="M320 220L145 90M320 220L495 90M320 220L145 350M320 220L495 350"/><circle cx="320" cy="220" r="4"/><circle cx="145" cy="90" r="4"/><circle cx="495" cy="90" r="4"/><circle cx="145" cy="350" r="4"/><circle cx="495" cy="350" r="4"/></svg>
+          <article class="dim dim-date"><span>DIMENSION</span><h3>dim_date</h3><small>jour · mois · année</small></article>
+          <article class="dim dim-seller"><span>DIMENSION</span><h3>dim_seller</h3><small>nom · pays</small></article>
+          <article class="fact"><span class="fact-label">TABLE DE FAITS · GRAIN COMMANDE / PRODUIT</span><h3>fact_orders</h3><div class="fact-fields"><span>order_id</span><span>dt</span><span>seller_id</span><span>product_id</span><span>quantity</span><span>total</span><span>commission</span></div></article>
+          <article class="dim dim-product"><span>DIMENSION</span><h3>dim_product</h3><small>nom · catégorie · prix</small></article>
+          <article class="dim dim-customer"><span>CLÉ MÉTIER</span><h3>customer_id</h3><small>identifiant conservé au fait</small></article>
+        </div>
+        <aside class="model-aside reveal"><span class="aside-kicker">LECTURE MÉTIER</span><h3>Un fait.<br>Des angles d’analyse.</h3><p>Les mesures de ventes se croisent avec le temps, le vendeur et le produit.</p><div class="metric-list"><div><span>01</span>Chiffre d’affaires</div><div><span>02</span>Commission</div><div><span>03</span>Panier moyen</div></div></aside>
+      </div>
+      <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>05 — 09</span></div>
+    </section>
+
+    <section class="slide" id="slide-6" aria-label="Diapositive 6 sur 9">
+      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 05 / ORCHESTRATION</div><h2>Le DAG donne<br><span class="muted">le rythme au pipeline.</span></h2></div>
+      <div class="dag-layout">
+        <div class="dag-canvas reveal">
+          <div class="dag-caption"><span>marketplace_orders_ingest_daily</span><span class="schedule-pill"><i></i> @DAILY</span></div>
+          <div class="dag-flow">
+            <article class="task task-parallel"><span class="task-symbol">↻</span><div><strong>refresh_dimensions</strong><small>Synchronise vendeurs et produits</small></div><span class="task-ok">✓</span></article>
+            <div class="branch"><i></i><span>EN PARALLÈLE</span><i></i></div>
+            <article class="task task-archive"><span class="task-symbol">▤</span><div><strong>archive_orders</strong><small>API → objet JSON dans MinIO</small></div><span class="task-ok">✓</span></article>
+            <div class="dag-arrow">↓</div>
+            <article class="task task-load"><span class="task-symbol">⇣</span><div><strong>load_staging</strong><small>MinIO → PostgreSQL staging</small></div><span class="task-ok">✓</span></article>
+            <div class="dag-arrow">↓</div>
+            <article class="task task-transform"><span class="task-symbol">✳</span><div><strong>transform_idempotently</strong><small>Faits + agrégats analytiques</small></div><span class="task-ok">✓</span></article>
+          </div>
+        </div>
+        <div class="dag-details reveal"><div class="detail-label">CONÇU POUR ÊTRE REJOUÉ</div><h3>Un flux quotidien,<br>des garde-fous utiles.</h3><ul><li><span>01</span><p><strong>Retries</strong><br>Jusqu’à deux nouvelles tentatives en cas d’échec.</p></li><li><span>02</span><p><strong>Pas de rattrapage automatique</strong><br>Les anciennes dates ne partent pas en masse au premier lancement.</p></li><li><span>03</span><p><strong>Une seule exécution active</strong><br>Évite deux traitements concurrents sur le même flux.</p></li></ul></div>
+      </div>
+      <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>06 — 09</span></div>
+    </section>
+
+    <section class="slide" id="slide-7" aria-label="Diapositive 7 sur 9">
+      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 06 / RESTITUTION BI</div><h2>Deux dashboards.<br><span class="muted">Un pilotage immédiat.</span></h2></div>
+      <div class="dashboards">
+        <article class="dashboard-card executive reveal">
+          <div class="dash-card-head"><div><span class="dash-kicker">METABASE / 01</span><h3>Executive Summary</h3></div><span class="dash-arrow">↗</span></div>
+          <div class="mock-screen"><div class="mock-nav"><b>SPORT<span>DATA</span></b><i></i><i></i><i></i><span class="mock-date">DERNIER JOUR CHARGÉ</span></div><div class="mock-kpis"><div><small>CHIFFRE D’AFFAIRES</small><strong>€ 24,8k</strong><em>dernière date du DWH</em></div><div class="spark"><small>ÉVOLUTION · 30 JOURS</small><svg viewBox="0 0 200 65" preserveAspectRatio="none"><path d="M0 54L20 47 36 52 52 34 67 41 83 23 100 38 118 31 137 14 154 26 173 10 200 4"/><path d="M0 54L20 47 36 52 52 34 67 41 83 23 100 38 118 31 137 14 154 26 173 10 200 4V65H0Z" class="spark-fill"/></svg></div></div><div class="mock-bars"><div class="mock-title">TOP VENDEURS</div><div><span>Alpine Run</span><i style="--w:90%"></i></div><div><span>VeloPro</span><i style="--w:72%"></i></div><div><span>Outdoor Nord</span><i style="--w:54%"></i></div><div><span>Fit & Forme</span><i style="--w:37%"></i></div></div></div>
+          <div class="dash-foot"><span>CA DU JOUR · TENDANCE · TOP 5</span><span>VUE D’ENSEMBLE</span></div>
+        </article>
+        <article class="dashboard-card sellers reveal">
+          <div class="dash-card-head"><div><span class="dash-kicker">METABASE / 02</span><h3>Top Sellers</h3></div><span class="dash-arrow">↗</span></div>
+          <div class="mock-screen screen-dark"><div class="seller-head"><span>PERFORMANCE VENDEURS</span><span>MOIS EN COURS⌄</span></div><div class="seller-row"><b>01</b><span>Alpine Run<small>Course · FR</small></span><strong>€ 18,2k</strong><i style="--w:86%"></i></div><div class="seller-row"><b>02</b><span>VeloPro<small>Cyclisme · FR</small></span><strong>€ 14,6k</strong><i style="--w:69%"></i></div><div class="seller-row"><b>03</b><span>Outdoor Nord<small>Randonnée · BE</small></span><strong>€ 11,1k</strong><i style="--w:51%"></i></div><div class="commission-chart"><span>COMMISSIONS JOURNALIÈRES</span><svg viewBox="0 0 360 75" preserveAspectRatio="none"><path d="M0 57L28 48 54 55 82 35 110 41 138 23 166 37 194 30 222 16 250 25 278 13 306 21 334 6 360 10"/></svg></div></div>
+          <div class="dash-foot"><span>TOP 10 · COMMISSIONS · INACTIVITÉ</span><span>PERFORMANCE</span></div>
+        </article>
+      </div>
+      <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>07 — 09</span></div>
+    </section>
+
+    <section class="slide" id="slide-8" aria-label="Diapositive 8 sur 9">
+      <div class="slide-heading reveal"><div class="eyebrow"><span class="eyebrow-line"></span> 07 / FIABILITÉ</div><h2>La confiance se construit<br><span class="muted">dans les détails.</span></h2></div>
+      <div class="reliability-grid">
+        <article class="reliability-card reveal"><span class="reliability-icon">01</span><div><h3>Source contrôlée</h3><p>L’API exige un jeton Bearer et produit des commandes déterministes pour une date donnée.</p></div><span class="reliability-tag">AUTH · REPRODUCTIBLE</span></article>
+        <article class="reliability-card reveal"><span class="reliability-icon">02</span><div><h3>Chargement idempotent</h3><p>Une relance supprime puis recharge la date traitée dans staging et les tables analytiques.</p></div><span class="reliability-tag">PAS DE DOUBLONS AU REPLAY</span></article>
+        <article class="reliability-card reveal"><span class="reliability-icon">03</span><div><h3>Mesures cohérentes</h3><p>Le panier moyen divise la somme des ventes par les commandes, pas par les lignes.</p></div><span class="reliability-tag">GRAIN DOCUMENTÉ</span></article>
+        <article class="reliability-card reveal"><span class="reliability-icon">04</span><div><h3>Tests automatisés</h3><p>Le dépôt vérifie l’import du DAG, ses tâches essentielles, l’authentification et le déterminisme de l’API.</p></div><span class="reliability-tag">CONTRÔLES DANS LE PROJET</span></article>
+      </div>
+      <div class="slide-foot"><span>MARKETPLACE SPORT</span><span>08 — 09</span></div>
+    </section>
+
+    <section class="slide slide-outro" id="slide-9" aria-label="Diapositive 9 sur 9">
+      <div class="outro-glow" aria-hidden="true"></div>
+      <div class="outro-content reveal"><div class="eyebrow"><span class="eyebrow-line"></span> MARKETPLACE SPORT · SYNTHÈSE</div><h2>Une donnée fiable.<br><span class="accent">Une action plus claire.</span></h2><p>Un pipeline qui conserve le brut, structure les ventes et transforme les indicateurs en outil de pilotage.</p><div class="outro-equation"><span>COLLECTER</span><i>×</i><span>FIABILISER</span><i>×</i><span>COMPRENDRE</span></div><div class="outro-cta"><span class="outro-check">✓</span> DU FLUX À LA DÉCISION</div></div>
+      <div class="outro-number reveal">M<span>+</span></div>
+      <div class="slide-foot"><span>MERCI</span><span>09 — 09</span></div>
+    </section>
+  </main>
+
+  <footer class="controls" aria-label="Commandes du diaporama">
+    <div class="progress-wrap"><div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div><span id="slide-count">01 / 09</span></div>
+    <nav class="slide-dots" id="slide-dots" aria-label="Aller à une diapositive"></nav>
+    <div class="control-buttons"><button id="fullscreen" class="control-btn fullscreen-btn" type="button" aria-label="Plein écran" title="Plein écran (F)">⛶</button><button id="prev" class="control-btn" type="button" aria-label="Diapositive précédente" title="Précédente (←)">←</button><button id="next" class="control-btn next-btn" type="button" aria-label="Diapositive suivante" title="Suivante (→)">→</button></div>
+  </footer>
+  <div class="keyboard-hint" aria-hidden="true">UTILISER LES FLÈCHES <span>←</span> <span>→</span></div>
+</body>
+</html>
