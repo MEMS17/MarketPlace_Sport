@@ -75,6 +75,8 @@ Après une modification des dashboards, relancer le provisionnement avec `docker
 
 ## Tests et contrôles
 
+GitHub Actions exécute automatiquement la suite pytest sur chaque push et pull request. Pour la lancer localement :
+
 ```powershell
 docker compose exec airflow-worker pytest /opt/airflow/tests -q
 docker compose logs --tail 100 airflow-scheduler airflow-worker

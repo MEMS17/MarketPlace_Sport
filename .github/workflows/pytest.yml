@@ -1,0 +1,28 @@
+name: pytest
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Airflow pytest suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Prepare local Compose environment
+        run: cp .env.example .env
+
+      - name: Build Airflow test image
+        run: docker compose build airflow-worker
+
+      - name: Run pytest suite
+        run: docker compose run --rm --no-deps airflow-worker pytest /opt/airflow/tests -q
