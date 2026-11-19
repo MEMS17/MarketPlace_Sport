@@ -1,0 +1,194 @@
+name: marketplace-sport
+
+x-airflow-common: &airflow-common
+  build: ./airflow
+  environment: &airflow-env
+    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow-local@postgres-airflow/airflow
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow-local@postgres-airflow/airflow
+    AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+    AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY:?copy .env.example to .env and set secrets}
+    AIRFLOW__API__SECRET_KEY: ${AIRFLOW_SECRET_KEY:?set AIRFLOW_SECRET_KEY in .env}
+    AIRFLOW__API__AUTH_BACKENDS: airflow.providers.fab.auth_manager.api.auth.backend.basic_auth
+    AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+    MARKETPLACE_API_URL: http://api-marketplace:5000
+    MARKETPLACE_API_TOKEN: ${MARKETPLACE_API_TOKEN:?set API token in .env}
+    MINIO_ENDPOINT: http://minio:9000
+    MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:?set MinIO user in .env}
+    MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:?set MinIO password in .env}
+    MINIO_BUCKET: data-lake
+    POSTGRES_DWH_HOST: postgres-dwh
+    POSTGRES_DWH_PORT: "5432"
+    POSTGRES_DWH_USER: ${POSTGRES_DWH_USER:?set DWH user in .env}
+    POSTGRES_DWH_PASSWORD: ${POSTGRES_DWH_PASSWORD:?set DWH password in .env}
+    POSTGRES_DWH_DB: ${POSTGRES_DWH_DB:-dwh}
+    AIRFLOW_CONN_MARKETPLACE_DWH: postgres://${POSTGRES_DWH_USER:-marketplace}:${POSTGRES_DWH_PASSWORD:-marketplace-local}@postgres-dwh:5432/${POSTGRES_DWH_DB:-dwh}
+    PYTHONPATH: /opt/airflow/dags:/opt/airflow/plugins
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./plugins:/opt/airflow/plugins
+    - ./api:/opt/airflow/api:ro
+    - ./logs:/opt/airflow/logs
+    - ./tests:/opt/airflow/tests:ro
+  depends_on:
+    postgres-airflow:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  postgres-airflow:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow-local
+      POSTGRES_DB: airflow
+    volumes: [pg-airflow-data:/var/lib/postgresql]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U airflow]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  postgres-dwh:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_DWH_USER:-marketplace}
+      POSTGRES_PASSWORD: ${POSTGRES_DWH_PASSWORD:-marketplace-local}
+      POSTGRES_DB: ${POSTGRES_DWH_DB:-dwh}
+    ports: ["127.0.0.1:55433:5432"]
+    volumes:
+      - pg-dwh-data:/var/lib/postgresql
+      - ./init-db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  minio:
+    image: pgsty/silo:RELEASE.2026-11-12T00-00-00Z
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio_password_local}
+    ports:
+      - "127.0.0.1:9100:9000"
+      - "127.0.0.1:9101:9001"
+    volumes: [minio-data:/data]
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost:9000/minio/health/live]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  minio-init:
+    build: ./minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio_password_local}
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_BUCKET: data-lake
+    restart: "no"
+
+  api-marketplace:
+    build: ./api
+    environment:
+      MARKETPLACE_API_TOKEN: ${MARKETPLACE_API_TOKEN:-formation-token-2026}
+    ports: ["127.0.0.1:5001:5000"]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  airflow-init:
+    <<: *airflow-common
+    command: bash -c "airflow db migrate && (airflow users create --username '${AIRFLOW_ADMIN_USER:-admin}' --password '${AIRFLOW_ADMIN_PASSWORD:-admin-local}' --firstname Data --lastname Engineer --role Admin --email admin@local.invalid || true) && (airflow connections add marketplace_api --conn-type http --conn-host http://api-marketplace:5000 --conn-password \"$${MARKETPLACE_API_TOKEN}\" || true)"
+    restart: "no"
+
+  airflow-apiserver:
+    <<: *airflow-common
+    command: api-server
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+      api-marketplace:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+      postgres-dwh:
+        condition: service_healthy
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+
+  airflow-dag-processor:
+    <<: *airflow-common
+    command: dag-processor
+
+  airflow-triggerer:
+    <<: *airflow-common
+    command: triggerer
+
+  airflow-worker:
+    <<: *airflow-common
+    command: celery worker
+    environment:
+      <<: *airflow-env
+      DUMB_INIT_SETSID: "0"
+
+  metabase:
+    image: metabase/metabase:v0.59.6.1
+    environment:
+      MB_DB_TYPE: h2
+      MB_DB_FILE: /metabase-data/metabase.db
+      MB_ADMIN_EMAIL: ${METABASE_ADMIN_EMAIL:-admin@marketplace.local}
+      MB_ADMIN_PASSWORD: ${METABASE_ADMIN_PASSWORD:-SportData2026!}
+      MB_LOAD_SAMPLE_CONTENT: "false"
+    ports: ["127.0.0.1:3000:3000"]
+    volumes: [metabase-data:/metabase-data]
+    depends_on:
+      postgres-dwh:
+        condition: service_healthy
+
+  metabase-provision:
+    build: ./metabase
+    command: python /app/provision_metabase.py
+    environment:
+      METABASE_URL: http://metabase:3000
+      METABASE_ADMIN_EMAIL: ${METABASE_ADMIN_EMAIL:-admin@marketplace.local}
+      METABASE_ADMIN_PASSWORD: ${METABASE_ADMIN_PASSWORD:-SportData2026!}
+      POSTGRES_DWH_USER: ${POSTGRES_DWH_USER:-marketplace}
+      POSTGRES_DWH_PASSWORD: ${POSTGRES_DWH_PASSWORD:-marketplace-local}
+      POSTGRES_DWH_DB: ${POSTGRES_DWH_DB:-dwh}
+    volumes:
+      - ./metabase/provision_metabase.py:/app/provision_metabase.py:ro
+    depends_on:
+      metabase:
+        condition: service_started
+      postgres-dwh:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  pg-airflow-data:
+  pg-dwh-data:
+  minio-data:
+  metabase-data:
