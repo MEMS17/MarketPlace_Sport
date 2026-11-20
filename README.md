@@ -85,6 +85,10 @@ Les indicateurs relatifs utilisent les dates présentes dans le DWH. Ainsi, un b
 
 Après une modification des dashboards, relancer le provisionnement avec `docker compose up -d --force-recreate metabase-provision`.
 
+## Slides de présentation
+
+Les slides de présentation du projet sont disponibles dans `presentation/index.html`.
+
 ## Tests et contrôles
 
 GitHub Actions exécute automatiquement la suite pytest sur chaque push et pull request ([historique des runs](https://github.com/MEMS17/MarketPlace_Sport/actions/workflows/pytest.yml)). Pour la lancer localement :
