@@ -58,3 +58,44 @@
 @media(max-width:760px){.course-concepts .slide-heading h2,.load-test .slide-heading h2{font-size:clamp(34px,8vw,48px)}.concept-grid{grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.concept-card{padding:9px;min-height:140px}.concept-index{font-size:5px}.concept-card h3{font-size:9px}.concept-card p{font-size:7px}.concept-card small{font-size:5px}.concept-note{font-size:7px;margin-bottom:20px}.benchmark-layout{grid-template-columns:1fr;gap:10px;margin-top:15px}.benchmark-kpis{gap:6px}.benchmark-kpis article{padding:10px}.benchmark-kpis strong{font-size:25px}.benchmark-query{padding:12px}.benchmark-query>div{gap:5px;margin:12px 0}.benchmark-query b{font-size:6px;padding:7px}.benchmark-query p,.benchmark-aside p{font-size:8px}.benchmark-aside{padding:12px}.benchmark-aside h3{font-size:22px;margin:8px 0}.benchmark-caveat{margin-top:9px;padding:9px}}
 @media(max-width:760px){.compose-layout,.code-tour-grid{grid-template-columns:1fr;margin-top:15px;gap:9px}.compose-code pre,.code-tour-card pre{font-size:8px;padding:10px}.compose-code pre{flex:none}.code-window-head,.code-tour-head{padding:9px 10px}.compose-command{padding:8px 10px;font-size:7px}.compose-command i{font-size:6px}.compose-priority{padding:9px}.compose-priority strong{font-size:12px}.compose-explainer article{padding:6px 2px}.compose-explainer article p{font-size:7px}.compose-explainer article p strong{font-size:8px}.compose-explainer code{font-size:6px}.compose-takeaway,.code-tour-takeaway{margin-top:8px;margin-bottom:23px;padding:8px;font-size:7px}.code-tour-card pre{flex:none}.code-tour-card p{padding:8px 10px;font-size:7px}.code-tour-takeaway{grid-template-columns:1fr;gap:5px}.code-tour-takeaway strong{font-size:7px}.code-tour-takeaway small{grid-column:1;font-size:6px}}
 .cover-team{margin-top:19px;max-width:540px}.team-label{display:block;margin-bottom:8px;color:#778474;font:7px var(--mono);letter-spacing:.1em}.team-members{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.team-members p{margin:0;padding-top:7px;border-top:1px solid var(--line);line-height:1.35}.team-members strong,.team-members small{display:block}.team-members strong{color:#e2e9de;font-size:8px;font-weight:600}.team-members small{margin-top:4px;color:#879384;font:7px var(--mono)}@media(max-width:760px){.cover-team{margin-top:12px;max-width:100%}.team-members{gap:5px}.team-members p{padding-top:5px}.team-members strong{font-size:7px;overflow-wrap:anywhere}.team-members small{font-size:6px}}
+/* Motion */
+.slide.active.enter-forward{animation:slideEnterForward .58s cubic-bezier(.2,.75,.25,1) both}
+.slide.active.enter-backward{animation:slideEnterBackward .58s cubic-bezier(.2,.75,.25,1) both}
+.slide.active .reveal,.slide.active .reveal:nth-child(2),.slide.active .reveal:nth-child(3),.slide.active .reveal:nth-child(4){animation-delay:calc(var(--reveal-order,0)*72ms)}
+@keyframes slideEnterForward{from{opacity:0;transform:translateX(30px) scale(.99)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes slideEnterBackward{from{opacity:0;transform:translateX(-30px) scale(.99)}to{opacity:1;transform:translateX(0) scale(1)}}
+.slide-cover.active .orbit-a{animation:orbitA 7s ease-in-out infinite}
+.slide-cover.active .orbit-b{animation:orbitB 9s ease-in-out infinite}
+.slide-cover.active .art-core{animation:coreFloat 5s ease-in-out infinite}
+.slide-cover.active .core-symbol{animation:symbolPulse 2.4s ease-in-out infinite}
+.slide-cover.active .art-route path{animation:routeFlow 8s linear infinite}
+.slide-cover.active .pulse{animation:dotPulse 1.8s ease-in-out infinite}
+@keyframes orbitA{0%,100%{transform:rotate(-19deg) scale(.98);opacity:.7}50%{transform:rotate(-16deg) scale(1.04);opacity:1}}
+@keyframes orbitB{0%,100%{transform:rotate(48deg) scale(1)}50%{transform:rotate(52deg) scale(1.035)}}
+@keyframes coreFloat{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(-5deg) translateY(-7px)}}
+@keyframes symbolPulse{0%,100%{transform:scale(1);text-shadow:0 0 0 rgba(199,243,107,0)}50%{transform:scale(1.1);text-shadow:0 0 18px rgba(199,243,107,.42)}}
+@keyframes routeFlow{to{stroke-dashoffset:-104}}
+@keyframes dotPulse{0%,100%{opacity:.55;box-shadow:0 0 5px var(--lime)}50%{opacity:1;box-shadow:0 0 14px var(--lime)}}
+.connector i{animation:arrowNudge 1.8s ease-in-out infinite}
+@keyframes arrowNudge{0%,100%{transform:translateX(0);opacity:.7}50%{transform:translateX(4px);opacity:1}}
+.slide.active .orchestration-band .band-glyph{animation:glyphBreathe 2.8s ease-in-out infinite}
+@keyframes glyphBreathe{0%,100%{box-shadow:0 0 0 rgba(199,243,107,0)}50%{box-shadow:0 0 20px rgba(199,243,107,.16)}}
+.slide.active .life-line{background-size:200% 100%;animation:lineTravel 5s linear infinite}
+@keyframes lineTravel{to{background-position:200% 0}}
+.slide.active .step-dot{animation:stepGlow 2.8s ease-in-out infinite;animation-delay:calc(var(--reveal-order,0)*110ms)}
+@keyframes stepGlow{0%,100%{box-shadow:0 0 0 rgba(199,243,107,0)}50%{box-shadow:0 0 16px rgba(199,243,107,.12)}}
+.slide.active .star-lines path{animation:starFlow 4s linear infinite}
+@keyframes starFlow{to{stroke-dashoffset:-36}}
+.slide.active .fact{animation:factGlow 3.8s ease-in-out infinite}
+@keyframes factGlow{0%,100%{box-shadow:0 12px 50px rgba(199,243,107,.055)}50%{box-shadow:0 12px 58px rgba(199,243,107,.15)}}
+.slide.active .task{animation:taskGlow 3.8s ease-in-out infinite;animation-delay:calc(var(--reveal-order,0)*160ms)}
+.slide.active .task-ok{animation:checkPop .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(240ms + var(--reveal-order,0)*120ms)}
+@keyframes taskGlow{0%,100%{border-color:var(--line)}50%{border-color:rgba(199,243,107,.34)}}
+@keyframes checkPop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+.slide.active .mock-bars i{transform-origin:left center;animation:barGrow .9s cubic-bezier(.2,.75,.25,1) both;animation-delay:calc(180ms + var(--bar-order,0)*100ms)}
+.slide.active .spark path:first-child,.slide.active .commission-chart path{stroke-dasharray:700;stroke-dashoffset:700;animation:chartDraw 1.8s ease-out forwards .2s}
+@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes chartDraw{to{stroke-dashoffset:0}}
+.slide.active .benchmark-kpis article{animation:kpiRise .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(100ms + var(--reveal-order,0)*100ms)}
+@keyframes kpiRise{from{opacity:.4;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.slide.active.enter-forward,.slide.active.enter-backward,.slide-cover.active .orbit-a,.slide-cover.active .orbit-b,.slide-cover.active .art-core,.slide-cover.active .core-symbol,.slide-cover.active .art-route path,.slide-cover.active .pulse,.connector i,.slide.active .orchestration-band .band-glyph,.slide.active .life-line,.slide.active .step-dot,.slide.active .star-lines path,.slide.active .fact,.slide.active .task,.slide.active .task-ok,.slide.active .mock-bars i,.slide.active .spark path:first-child,.slide.active .commission-chart path,.slide.active .benchmark-kpis article{animation:none!important}.slide.active .reveal,.slide.active .reveal:nth-child(2),.slide.active .reveal:nth-child(3),.slide.active .reveal:nth-child(4){animation-duration:.01ms!important;animation-delay:0ms!important}}

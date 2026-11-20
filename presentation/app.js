@@ -8,6 +8,15 @@
   const fullscreen = document.getElementById('fullscreen');
   let current = 0;
 
+  slides.forEach((slide) => {
+    slide.querySelectorAll('.reveal').forEach((element, index) => {
+      element.style.setProperty('--reveal-order', Math.min(index, 7));
+    });
+    slide.querySelectorAll('.mock-bars i').forEach((bar, index) => {
+      bar.style.setProperty('--bar-order', index);
+    });
+  });
+
   const pad = (number) => String(number).padStart(2, '0');
 
   slides.forEach((slide, index) => {
@@ -21,10 +30,14 @@
   });
 
   function show(index) {
-    current = Math.max(0, Math.min(slides.length - 1, index));
+    const nextIndex = Math.max(0, Math.min(slides.length - 1, index));
+    const direction = nextIndex >= current ? 'forward' : 'backward';
+    current = nextIndex;
     slides.forEach((slide, slideIndex) => {
       const active = slideIndex === current;
       slide.classList.toggle('active', active);
+      slide.classList.toggle('enter-forward', active && direction === 'forward');
+      slide.classList.toggle('enter-backward', active && direction === 'backward');
       slide.setAttribute('aria-hidden', active ? 'false' : 'true');
     });
     [...dots.children].forEach((dot, dotIndex) => {
