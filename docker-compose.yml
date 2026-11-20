@@ -11,7 +11,7 @@ x-airflow-common: &airflow-common
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY:?copy .env.example to .env and set secrets}
     AIRFLOW__API__SECRET_KEY: ${AIRFLOW_SECRET_KEY:?set AIRFLOW_SECRET_KEY in .env}
-    AIRFLOW__API__BASE_URL: http://airflow-apiserver:8080
+    AIRFLOW__API__BASE_URL: http://localhost:8080
     AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW_SECRET_KEY:?set AIRFLOW_SECRET_KEY in .env}
     AIRFLOW__API__AUTH_BACKENDS: airflow.providers.fab.auth_manager.api.auth.backend.basic_auth
     AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
